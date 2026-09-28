@@ -97,3 +97,9 @@ O PWA e a estrutura para GitHub Pages foram mantidos.
 - O jogo da memória voltou a usar cartas maiores em formato quadrado.
 - O verso ilustrado agora ocupa melhor a carta e ficou mais destacado.
 - Ajustado para manter boa visualização no tablet.
+
+
+## v11 — Verso full das cartas
+- O verso da carta da memória agora ocupa toda a área da carta.
+- A arte do verso ficou no mesmo tamanho visual da frente da carta.
+- Mantido o estilo infantil e o brilho ao virar.
