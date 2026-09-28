@@ -91,3 +91,9 @@ O PWA e a estrutura para GitHub Pages foram mantidos.
 - Corrigido o Service Worker para ignorar requisições chrome-extension/DevTools.
 - Atualizado o cache PWA para v9.
 - Adicionado versionamento nos arquivos CSS/JS para evitar carregar versão antiga do navegador.
+
+
+## v10 — Cartas quadradas maiores
+- O jogo da memória voltou a usar cartas maiores em formato quadrado.
+- O verso ilustrado agora ocupa melhor a carta e ficou mais destacado.
+- Ajustado para manter boa visualização no tablet.
