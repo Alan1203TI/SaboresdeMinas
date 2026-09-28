@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Sabores de Minas — SESIVERSO</title>
+  <meta name="theme-color" content="#7c3aed" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Sabores de Minas" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" type="image/png" href="assets/favicon.png" />
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="bg-bubbles"></div>
+
+  <header class="topbar">
+    <div class="brand">
+      <img class="sesi-logo" src="assets/logo-sesi.png" alt="Logo SESI" />
+      <div class="brand-text">
+        <h1>Sabores de Minas</h1>
+        <p>Jogos infantis do SESIVERSO sobre comidas típicas mineiras e de São João del-Rei</p>
+      </div>
+    </div>
+    <div class="top-actions">
+      <button id="installAppBtn" class="pill-btn" hidden>⬇ Instalar app</button>
+      <div class="score-pill" id="globalMessage">Escolha um jogo para começar!</div>
+    </div>
+  </header>
+
+  <main class="app-shell">
+    <section id="homeScreen" class="screen active">
+      <div class="hero-card">
+        <div class="hero-left">
+          <span class="badge">SESIVERSO • Jogos infantis</span>
+          <h2>Brincadeiras deliciosas para aprender sobre Minas!</h2>
+          <p>Escolha um dos jogos e descubra sabores, imagens e comidas muito famosas da culinária mineira.</p>
+          <div class="hero-actions">
+            <button class="menu-btn pink" id="startGuessBtn">🔎 Adivinhação dos Sabores</button>
+            <button class="menu-btn yellow" id="startMemoryBtn">🃏 Memória Mineira</button>
+          </div>
+        </div>
+        <div class="hero-right">
+          <div class="emoji-ball e1">🧀</div>
+          <div class="emoji-ball e2">🍞</div>
+          <div class="emoji-ball e3">🍮</div>
+          <div class="emoji-ball e4">🌽</div>
+          <div class="emoji-ball e5">🍗</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="guessScreen" class="screen">
+      <div class="section-header">
+        <button class="back-btn" data-back-home>← Voltar</button>
+        <div class="section-title">
+          <h2>🔎 Adivinhação dos Sabores</h2>
+          <p>Use as pistas e descubra a comida. Cada partida sorteia rodadas diferentes!</p>
+        </div>
+        <div class="compact-stat">
+          <span>Rodada</span>
+          <strong id="guessRoundLabel">1 / 6</strong>
+        </div>
+      </div>
+
+      <div class="guess-layout">
+        <div class="guess-image-card">
+          <img id="guessImage" src="" alt="Comida misteriosa" />
+          <div id="guessBlurOverlay" class="photo-overlay"></div>
+          <div class="img-info" id="guessCategory">Categoria</div>
+        </div>
+
+        <div class="guess-panel">
+          <div class="clue-panel">
+            <span class="badge">PISTA ATUAL</span>
+            <h3 id="guessClueTitle">Pista 1</h3>
+            <p id="guessClueText">Vamos começar?</p>
+          </div>
+
+          <div class="options-grid" id="guessOptions"></div>
+
+          <div class="guess-actions">
+            <button class="soft-btn" id="moreClueBtn">✨ Mais uma pista</button>
+            <button class="primary-btn" id="nextGuessBtn" disabled>➡ Próxima rodada</button>
+          </div>
+
+          <div class="result-box" id="guessResultBox">Escolha uma resposta para jogar.</div>
+        </div>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-card pink"><span>Pontuação</span><strong id="guessScore">0</strong></div>
+        <div class="stat-card blue"><span>Acertos</span><strong id="guessHits">0</strong></div>
+        <div class="stat-card green"><span>Pistas usadas</span><strong id="guessClueLevel">1</strong></div>
+      </div>
+    </section>
+
+    <section id="memoryScreen" class="screen">
+      <div class="section-header compact">
+        <button class="back-btn" data-back-home>← Voltar</button>
+        <div class="section-title">
+          <h2>🃏 Memória Mineira</h2>
+          <p>Encontre os pares de imagens. São 12 comidas diferentes!</p>
+        </div>
+        <button id="restartMemoryBtn" class="primary-btn mini">🔄 Reiniciar</button>
+      </div>
+
+      <div class="memory-stats">
+        <div class="mini-stat"><span>Jogadas</span><strong id="memoryMoves">0</strong></div>
+        <div class="mini-stat"><span>Pares</span><strong id="memoryMatches">0 / 12</strong></div>
+        <div class="mini-stat"><span>Tempo</span><strong id="memoryTime">00:00</strong></div>
+      </div>
+
+      <div class="memory-board" id="memoryBoard"></div>
+      <div class="result-box memory-message" id="memoryMessage">Toque nas cartas para encontrar os pares.</div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span>Sabores de Minas — SESIVERSO • PWA</span>
+    <span>Alan Camilo Rodrigues • Técnico de TI</span>
+  </footer>
+
+  <script src="foods.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
