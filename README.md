@@ -44,3 +44,15 @@ Como publicar no GitHub:
 
 Assinatura:
 Alan Camilo Rodrigues • Técnico de TI
+
+
+## v4 — Ajustes visuais
+- Novo plano de fundo com comidas mineiras e igrejas coloniais.
+- Itens da tela inicial trocados de emojis para imagens reais das comidas.
+- Mantido pronto para GitHub Pages e instalação PWA no tablet.
+
+
+## v5 — Fundo desfocado
+- A imagem principal usada como fundo do aplicativo agora aparece desfocada.
+- Mantida a mesma arte com comidas mineiras e igrejas, porém com visual mais suave para destacar a interface.
+- Cache do PWA atualizado.

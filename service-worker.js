@@ -1,4 +1,4 @@
-const CACHE_NAME = 'sabores-minas-v3';
+const CACHE_NAME = 'sabores-minas-v5';
 const ASSETS = [
   './',
   './index.html',
@@ -7,6 +7,7 @@ const ASSETS = [
   './app.js',
   './manifest.webmanifest',
   './assets/logo-sesi.png',
+  './assets/bg-minas-igrejas-comidas.png',
   './assets/icon-192.png',
   './assets/icon-512.png',
   './assets/apple-touch-icon.png',

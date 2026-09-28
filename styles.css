@@ -17,14 +17,25 @@
 html,body{margin:0;padding:0;min-height:100%;font-family:"Segoe UI",Arial,sans-serif}
 body{
   color:var(--white);
-  background:
-    radial-gradient(circle at 10% 20%, rgba(255,255,255,.18), transparent 22%),
-    radial-gradient(circle at 85% 15%, rgba(255,255,255,.12), transparent 17%),
-    linear-gradient(135deg,#8b5cf6 0%, #06b6d4 36%, #fb923c 100%);
+  background:linear-gradient(135deg,#8b5cf6 0%, #06b6d4 36%, #fb923c 100%);
   overflow-x:hidden;
 }
 .bg-bubbles{
-  position:fixed; inset:0; pointer-events:none; opacity:.3;
+  position:fixed; inset:0; pointer-events:none; overflow:hidden;
+}
+.bg-bubbles::before{
+  content:"";
+  position:absolute; inset:-18px;
+  background:
+    linear-gradient(135deg, rgba(124,58,237,.38), rgba(6,182,212,.26), rgba(251,146,60,.28)),
+    url('assets/bg-minas-igrejas-comidas.png') center center / cover no-repeat;
+  filter: blur(12px) brightness(.82);
+  transform: scale(1.06);
+  opacity:.92;
+}
+.bg-bubbles::after{
+  content:"";
+  position:absolute; inset:0; opacity:.22;
   background-image:
     radial-gradient(circle at 12% 16%, #fff 0 2px, transparent 3px),
     radial-gradient(circle at 27% 72%, #fff 0 2px, transparent 3px),
@@ -36,7 +47,7 @@ button{font:inherit}
 .topbar{
   width:min(1220px, calc(100% - 20px));
   margin:10px auto 0;
-  background:var(--panel);
+  background:rgba(255,255,255,.20);
   border:1px solid var(--border);
   box-shadow:var(--shadow);
   backdrop-filter: blur(12px);
@@ -58,7 +69,7 @@ button{font:inherit}
 .screen{display:none}
 .screen.active{display:block}
 .hero-card,.section-header,.guess-image-card,.guess-panel,.memory-stats,.memory-message{
-  background:var(--panel); border:1px solid var(--border); box-shadow:var(--shadow); backdrop-filter: blur(12px);
+  background:rgba(255,255,255,.18); border:1px solid var(--border); box-shadow:var(--shadow); backdrop-filter: blur(12px);
 }
 .hero-card{
   border-radius:32px; min-height:420px;
@@ -81,21 +92,26 @@ button{font:inherit}
 .hero-right{
   position:relative;
   background:
-    radial-gradient(circle at 30% 40%, rgba(255,255,255,.16), transparent 18%),
-    radial-gradient(circle at 70% 20%, rgba(255,255,255,.18), transparent 16%),
-    linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
+    linear-gradient(135deg, rgba(255,255,255,.14), rgba(255,255,255,.06)),
+    radial-gradient(circle at 30% 40%, rgba(255,255,255,.12), transparent 18%),
+    radial-gradient(circle at 70% 20%, rgba(255,255,255,.14), transparent 16%);
 }
-.emoji-ball{
-  position:absolute; width:92px; height:92px; border-radius:50%;
-  display:grid; place-items:center; font-size:38px;
+.food-ball{
+  position:absolute; width:112px; height:112px; border-radius:50%;
+  display:grid; place-items:center;
   background:rgba(255,255,255,.18); box-shadow:var(--shadow);
+  border:3px solid rgba(255,255,255,.22);
+  overflow:hidden;
   animation:bob 3.5s ease-in-out infinite;
 }
-.e1{top:36px; left:34px}
-.e2{top:130px; right:48px; animation-delay:.3s}
-.e3{top:250px; left:110px; animation-delay:.6s}
-.e4{top:64px; right:160px; animation-delay:.9s}
-.e5{bottom:36px; right:96px; animation-delay:1.1s}
+.food-ball img{
+  width:100%; height:100%; object-fit:cover; display:block;
+}
+.e1{top:28px; left:34px}
+.e2{top:120px; right:52px; animation-delay:.3s}
+.e3{top:248px; left:108px; animation-delay:.6s}
+.e4{top:54px; right:180px; animation-delay:.9s}
+.e5{bottom:28px; right:92px; animation-delay:1.1s}
 @keyframes bob{50%{transform:translateY(-10px)}}
 
 .section-header{
@@ -229,4 +245,13 @@ button{font:inherit}
   #memoryScreen .app-shell, #memoryScreen{overflow:hidden}
   .memory-board{gap:8px}
   .memory-face{border-radius:16px}
+}
+
+@media (max-width:768px){
+  .food-ball{width:84px;height:84px}
+  .e1{top:18px; left:18px}
+  .e2{top:98px; right:24px}
+  .e3{top:168px; left:72px}
+  .e4{top:38px; right:108px}
+  .e5{bottom:18px; right:52px}
 }
