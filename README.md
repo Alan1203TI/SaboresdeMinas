@@ -77,3 +77,9 @@ O PWA e a estrutura para GitHub Pages foram mantidos.
 - Adicionado um novo verso ilustrado para as cartas da Memória Mineira.
 - O verso agora usa uma arte colorida com comidas típicas mineiras e referência visual às igrejas coloniais.
 - Cache do PWA atualizado para refletir o novo asset.
+
+
+## v8 — Cartas e finalização dos jogos
+- O verso das cartas da memória foi redesenhado com visual mais infantil e padrão de baralho.
+- As cartas da memória voltaram a um formato mais consistente, com proporção vertical e brilho ao virar.
+- Todos os jogos agora exibem uma tela final de campeão com pontos e resumo da partida.

@@ -25,6 +25,37 @@ function formatTime(seconds){
   return `${m}:${s}`;
 }
 
+const celebrationModal = document.getElementById('celebrationModal');
+const celebrationTitle = document.getElementById('celebrationTitle');
+const celebrationSubtitle = document.getElementById('celebrationSubtitle');
+const celebrationPoints = document.getElementById('celebrationPoints');
+const celebrationDetail = document.getElementById('celebrationDetail');
+const celebrationExtra = document.getElementById('celebrationExtra');
+const celebrationReplayBtn = document.getElementById('celebrationReplayBtn');
+const celebrationHomeBtn = document.getElementById('celebrationHomeBtn');
+let replayHandler = null;
+
+function showCelebration({title, subtitle, points, detail, extra, onReplay}){
+  celebrationTitle.textContent = title;
+  celebrationSubtitle.textContent = subtitle;
+  celebrationPoints.textContent = points;
+  celebrationDetail.textContent = detail;
+  celebrationExtra.innerHTML = extra;
+  replayHandler = onReplay;
+  celebrationModal.hidden = false;
+}
+function closeCelebration(){
+  celebrationModal.hidden = true;
+}
+celebrationReplayBtn.addEventListener('click', ()=>{
+  closeCelebration();
+  if(typeof replayHandler === 'function') replayHandler();
+});
+celebrationHomeBtn.addEventListener('click', ()=>{
+  closeCelebration();
+  showScreen('home');
+});
+
 // ---------------- Adivinhação ----------------
 const guessImage = document.getElementById('guessImage');
 const guessBlurOverlay = document.getElementById('guessBlurOverlay');
@@ -142,10 +173,18 @@ nextGuessBtn.addEventListener('click', () => {
     currentGuessIndex += 1;
     loadGuessRound();
   } else {
-    guessResultBox.innerHTML = `🏁 Fim da partida! Você fez <strong>${guessScore} pontos</strong> e acertou <strong>${guessHits}</strong> de ${guessPool.length}. Na próxima partida, as rodadas podem vir diferentes!`;
+    guessResultBox.innerHTML = `🏁 Fim da partida!`;
     nextGuessBtn.disabled = true;
     moreClueBtn.disabled = true;
     globalMessage.textContent = 'Partida concluída! Você pode jogar novamente.';
+    showCelebration({
+      title:'Campeão dos Sabores!',
+      subtitle:'Você concluiu a Adivinhação dos Sabores',
+      points:String(guessScore),
+      detail:`${guessHits} / ${guessPool.length}`,
+      extra:`Você acertou <strong>${guessHits}</strong> comidas e pode jogar novamente para receber rodadas diferentes!`,
+      onReplay:startGuessGame
+    });
   }
 });
 
@@ -213,7 +252,7 @@ function renderMemoryBoard(){
 
     const back = document.createElement('div');
     back.className = 'memory-face memory-back';
-    back.innerHTML = '🍽️';
+    back.innerHTML = `<div class="memory-back-badge"><strong>Sabores</strong><span>DE MINAS</span></div>`;
 
     const front = document.createElement('div');
     front.className = 'memory-face memory-front';
@@ -244,8 +283,17 @@ function flipMemoryCard(el, card){
       memoryMessage.textContent = '🎉 Muito bem! Você encontrou um par!';
       if(matchedPairs === 12){
         if(timerId) clearInterval(timerId);
-        memoryMessage.innerHTML = `🏆 Parabéns! Você encontrou todos os pares em <strong>${moves} jogadas</strong> e <strong>${formatTime(timerSeconds)}</strong>.`;
+        memoryMessage.innerHTML = `🏆 Parabéns!`;
         globalMessage.textContent = 'Você concluiu a Memória Mineira!';
+        const memScore = Math.max(100, Math.round(3000 - (moves*25 + timerSeconds*3)));
+        showCelebration({
+          title:'Campeão da Memória!',
+          subtitle:'Você encontrou todos os pares',
+          points:String(memScore),
+          detail:`${moves} jogadas`,
+          extra:`Tempo final: <strong>${formatTime(timerSeconds)}</strong> • Desempenho incrível na Memória Mineira!`,
+          onReplay:startMemoryGame
+        });
       }
     } else {
       boardLocked = true;
@@ -414,9 +462,17 @@ nextPlateBtn.addEventListener('click',()=>{
     plateRoundIndex++;
     loadPlateRound();
   }else{
-    plateMessage.innerHTML=`🏆 Fim do jogo! Você fez <strong>${plateScore} pontos</strong> e acertou <strong>${plateHits}</strong> de ${plateRounds.length} pratos.`;
+    plateMessage.innerHTML=`🏆 Fim do jogo!`;
     nextPlateBtn.disabled=true;
     globalMessage.textContent='Monte o Prato Mineiro concluído!';
+    showCelebration({
+      title:'Chef Campeão!',
+      subtitle:'Você concluiu o Monte o Prato Mineiro',
+      points:String(plateScore),
+      detail:`${plateHits} / ${plateRounds.length}`,
+      extra:`Você montou <strong>${plateHits}</strong> pratos corretamente. Continue treinando seus sabores mineiros!`,
+      onReplay:startPlateGame
+    });
   }
 });
 
@@ -508,9 +564,17 @@ nextOriginBtn.addEventListener('click',()=>{
     originIndex++;
     loadOriginQuestion();
   }else{
-    originMessage.innerHTML=`🏆 Fim! Você fez <strong>${originScore} pontos</strong> e acertou <strong>${originHits}</strong> de ${originRounds.length}.`;
+    originMessage.innerHTML=`🏆 Fim!`;
     nextOriginBtn.disabled=true;
     globalMessage.textContent='De Onde Vem? concluído!';
+    showCelebration({
+      title:'Explorador dos Ingredientes!',
+      subtitle:'Você concluiu o De Onde Vem?',
+      points:String(originScore),
+      detail:`${originHits} / ${originRounds.length}`,
+      extra:`Você acertou <strong>${originHits}</strong> respostas e descobriu a origem de vários sabores mineiros!`,
+      onReplay:startOriginGame
+    });
   }
 });
 

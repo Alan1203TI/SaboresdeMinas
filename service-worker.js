@@ -1,4 +1,4 @@
-const CACHE_NAME = 'sabores-minas-v7';
+const CACHE_NAME = 'sabores-minas-v8';
 const ASSETS = [
   './',
   './index.html',

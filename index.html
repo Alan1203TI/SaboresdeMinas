@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Sabores de Minas — SESIVERSO v7</title>
+  <title>Sabores de Minas — SESIVERSO v8</title>
   <meta name="theme-color" content="#7c3aed" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -197,8 +197,30 @@
 
   </main>
 
+  <div id="celebrationModal" class="celebration-modal" hidden>
+    <div class="celebration-backdrop"></div>
+    <div class="celebration-card">
+      <div class="celebration-confetti" aria-hidden="true">
+        <span>⭐</span><span>🏆</span><span>✨</span><span>🎉</span><span>🧀</span><span>🍮</span><span>🌽</span><span>🍽️</span>
+      </div>
+      <div class="celebration-crown">👑</div>
+      <div class="celebration-tag">VOCÊ ARRASOU!</div>
+      <h2 id="celebrationTitle">Campeão!</h2>
+      <p id="celebrationSubtitle">Resumo da sua partida</p>
+      <div class="celebration-stats">
+        <div class="celebration-stat"><span>Pontos</span><strong id="celebrationPoints">0</strong></div>
+        <div class="celebration-stat"><span>Desempenho</span><strong id="celebrationDetail">-</strong></div>
+      </div>
+      <div id="celebrationExtra" class="celebration-extra"></div>
+      <div class="celebration-actions">
+        <button id="celebrationReplayBtn" class="primary-btn">🔄 Jogar novamente</button>
+        <button id="celebrationHomeBtn" class="soft-btn">🏠 Voltar ao início</button>
+      </div>
+    </div>
+  </div>
+
   <footer class="footer">
-    <span>Sabores de Minas — SESIVERSO • PWA • v7 • verso ilustrado</span>
+    <span>Sabores de Minas — SESIVERSO • PWA • v8 • campeão + cartas novas</span>
     <span>Alan Camilo Rodrigues • Técnico de TI</span>
   </footer>
 
