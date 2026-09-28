@@ -2,7 +2,9 @@
 const screens = {
   home: document.getElementById('homeScreen'),
   guess: document.getElementById('guessScreen'),
-  memory: document.getElementById('memoryScreen')
+  memory: document.getElementById('memoryScreen'),
+  plate: document.getElementById('plateScreen'),
+  origin: document.getElementById('originScreen')
 };
 const globalMessage = document.getElementById('globalMessage');
 const installBtn = document.getElementById('installAppBtn');
@@ -13,6 +15,8 @@ function showScreen(name){
   if(name==='home') globalMessage.textContent = 'Escolha um jogo para começar!';
   if(name==='guess') globalMessage.textContent = 'Adivinhação dos Sabores em andamento!';
   if(name==='memory') globalMessage.textContent = 'Memória Mineira em andamento!';
+  if(name==='plate') globalMessage.textContent = 'Monte o Prato Mineiro em andamento!';
+  if(name==='origin') globalMessage.textContent = 'De Onde Vem? em andamento!';
 }
 function shuffle(arr){ return [...arr].sort(() => Math.random() - 0.5); }
 function formatTime(seconds){
@@ -257,9 +261,265 @@ function flipMemoryCard(el, card){
 }
 restartMemoryBtn.addEventListener('click', startMemoryGame);
 
+
+
+// ---------------- Monte o Prato Mineiro ----------------
+const plateRecipes = [
+  {
+    title:'Almoço bem mineiro',
+    clue:'Escolha o prato com frango e quiabo, o acompanhamento amarelo feito de milho e o petisco crocante de porco.',
+    ids:['frango_com_quiabo','angu','torresmo']
+  },
+  {
+    title:'Mesa de tropeiro',
+    clue:'Escolha o prato que leva feijão e farinha, o petisco crocante e o queijo símbolo de Minas.',
+    ids:['feijao_tropeiro','torresmo','queijo_minas']
+  },
+  {
+    title:'Café da tarde mineiro',
+    clue:'Escolha a bolinha assada com queijo, a quitanda de fubá e o doce cremoso caramelado.',
+    ids:['pao_de_queijo','broa_de_fuba','doce_de_leite']
+  },
+  {
+    title:'Sabores do milho',
+    clue:'Escolha três preparos em que o milho é protagonista: um embrulhado em palha, um cremoso salgado e uma quitanda de fubá.',
+    ids:['pamonha','canjiquinha','broa_de_fuba']
+  },
+  {
+    title:'Dupla doce e companhia',
+    clue:'Escolha a goiabada, o queijo mineiro e o doce cremoso feito de leite.',
+    ids:['goiabada','queijo_minas','doce_de_leite']
+  },
+  {
+    title:'Trio de quitandas',
+    clue:'Escolha pão de queijo, broa de fubá e biscoito de polvilho.',
+    ids:['pao_de_queijo','broa_de_fuba','biscoito_de_polvilho']
+  }
+];
+
+const plateRoundLabel = document.getElementById('plateRoundLabel');
+const plateTitle = document.getElementById('plateTitle');
+const plateClue = document.getElementById('plateClue');
+const plateSlots = document.getElementById('plateSlots');
+const plateOptions = document.getElementById('plateOptions');
+const plateScoreEl = document.getElementById('plateScore');
+const plateHitsEl = document.getElementById('plateHits');
+const plateMessage = document.getElementById('plateMessage');
+const clearPlateBtn = document.getElementById('clearPlateBtn');
+const checkPlateBtn = document.getElementById('checkPlateBtn');
+const nextPlateBtn = document.getElementById('nextPlateBtn');
+
+let plateRounds = [];
+let plateRoundIndex = 0;
+let plateSelected = [];
+let plateScore = 0;
+let plateHits = 0;
+let plateLocked = false;
+
+function startPlateGame(){
+  plateRounds = shuffle(plateRecipes).slice(0,5);
+  plateRoundIndex = 0;
+  plateSelected = [];
+  plateScore = 0;
+  plateHits = 0;
+  plateLocked = false;
+  showScreen('plate');
+  loadPlateRound();
+}
+function foodById(id){ return FOODS.find(f=>f.id===id); }
+function loadPlateRound(){
+  const round = plateRounds[plateRoundIndex];
+  plateSelected = [];
+  plateLocked = false;
+  plateRoundLabel.textContent = `${plateRoundIndex+1} / ${plateRounds.length}`;
+  plateTitle.textContent = round.title;
+  plateClue.textContent = round.clue;
+  plateScoreEl.textContent = plateScore;
+  plateHitsEl.textContent = plateHits;
+  plateMessage.textContent = 'Escolha 3 alimentos.';
+  clearPlateBtn.disabled = false;
+  checkPlateBtn.disabled = true;
+  checkPlateBtn.hidden = false;
+  nextPlateBtn.hidden = true;
+  renderPlateSlots();
+  renderPlateOptions();
+}
+function renderPlateSlots(){
+  plateSlots.innerHTML = '';
+  for(let i=0;i<3;i++){
+    const slot = document.createElement('div');
+    slot.className='plate-slot';
+    const food = foodById(plateSelected[i]);
+    if(food) slot.innerHTML = `<img src="${food.image}" alt="${food.name}">`;
+    else slot.innerHTML = `<span>${i+1}</span>`;
+    plateSlots.appendChild(slot);
+  }
+}
+function renderPlateOptions(){
+  const round = plateRounds[plateRoundIndex];
+  const extra = shuffle(FOODS.filter(f=>!round.ids.includes(f.id))).slice(0,5).map(f=>f.id);
+  const optionIds = shuffle([...round.ids, ...extra]);
+  plateOptions.innerHTML='';
+  optionIds.forEach(id=>{
+    const food = foodById(id);
+    const btn = document.createElement('button');
+    btn.className='plate-option';
+    btn.dataset.id=id;
+    btn.innerHTML=`<img src="${food.image}" alt="${food.name}" title="${food.name}">`;
+    btn.addEventListener('click',()=>{
+      if(plateLocked)return;
+      if(plateSelected.includes(id)) plateSelected = plateSelected.filter(x=>x!==id);
+      else if(plateSelected.length<3) plateSelected.push(id);
+      btn.classList.toggle('selected',plateSelected.includes(id));
+      renderPlateSlots();
+      checkPlateBtn.disabled = plateSelected.length!==3;
+    });
+    plateOptions.appendChild(btn);
+  });
+}
+clearPlateBtn.addEventListener('click',()=>{
+  if(plateLocked)return;
+  plateSelected=[];
+  renderPlateSlots();
+  [...plateOptions.children].forEach(el=>el.classList.remove('selected'));
+  checkPlateBtn.disabled=true;
+  plateMessage.textContent='Escolha 3 alimentos.';
+});
+checkPlateBtn.addEventListener('click',()=>{
+  if(plateLocked || plateSelected.length!==3)return;
+  plateLocked=true;
+  const round=plateRounds[plateRoundIndex];
+  const correct = round.ids.every(id=>plateSelected.includes(id));
+  [...plateOptions.children].forEach(el=>{
+    const id=el.dataset.id;
+    if(round.ids.includes(id))el.classList.add('correct');
+    else if(plateSelected.includes(id))el.classList.add('wrong');
+  });
+  if(correct){
+    plateScore += 100;
+    plateHits += 1;
+    plateMessage.innerHTML='🎉 Perfeito! Você montou a combinação certa e ganhou <strong>100 pontos</strong>.';
+  }else{
+    const names=round.ids.map(id=>foodById(id).name).join(' + ');
+    plateMessage.innerHTML=`🙂 Quase! A combinação correta era <strong>${names}</strong>.`;
+  }
+  plateScoreEl.textContent=plateScore;
+  plateHitsEl.textContent=plateHits;
+  clearPlateBtn.disabled=true;
+  checkPlateBtn.hidden=true;
+  nextPlateBtn.hidden=false;
+});
+nextPlateBtn.addEventListener('click',()=>{
+  if(plateRoundIndex < plateRounds.length-1){
+    plateRoundIndex++;
+    loadPlateRound();
+  }else{
+    plateMessage.innerHTML=`🏆 Fim do jogo! Você fez <strong>${plateScore} pontos</strong> e acertou <strong>${plateHits}</strong> de ${plateRounds.length} pratos.`;
+    nextPlateBtn.disabled=true;
+    globalMessage.textContent='Monte o Prato Mineiro concluído!';
+  }
+});
+
+// ---------------- De Onde Vem? ----------------
+const originQuestions = [
+  {id:'pao_de_queijo', q:'Qual ingrediente é essencial para a massa tradicional?', a:'Polvilho', opts:['Polvilho','Arroz','Aveia','Trigo integral']},
+  {id:'broa_de_fuba', q:'Qual ingrediente dá nome a esta quitanda?', a:'Fubá', opts:['Fubá','Cacau','Arroz','Batata']},
+  {id:'doce_de_leite', q:'Qual ingrediente é a base deste doce?', a:'Leite', opts:['Leite','Café','Milho','Goiaba']},
+  {id:'goiabada', q:'De qual fruta vem este doce?', a:'Goiaba', opts:['Goiaba','Uva','Maçã','Banana']},
+  {id:'romeu_e_julieta', q:'Quais dois alimentos formam esta combinação?', a:'Queijo e goiabada', opts:['Queijo e goiabada','Milho e leite','Feijão e farinha','Frango e quiabo']},
+  {id:'pamonha', q:'Qual alimento é a base da pamonha?', a:'Milho', opts:['Milho','Arroz','Feijão','Mandioca']},
+  {id:'biscoito_de_polvilho', q:'Qual ingrediente dá nome a este biscoito?', a:'Polvilho', opts:['Polvilho','Fubá','Coco','Aveia']},
+  {id:'canjiquinha', q:'A canjiquinha é feita principalmente a partir de quê?', a:'Milho', opts:['Milho','Trigo','Cacau','Goiaba']},
+  {id:'queijo_minas', q:'Qual alimento é usado para produzir o queijo?', a:'Leite', opts:['Leite','Milho','Feijão','Café']},
+  {id:'frango_com_quiabo', q:'Qual vegetal verde acompanha o frango neste prato?', a:'Quiabo', opts:['Quiabo','Couve-flor','Abobrinha','Ervilha']},
+  {id:'feijao_tropeiro', q:'Qual grão aparece no nome deste prato?', a:'Feijão', opts:['Feijão','Arroz','Milho','Grão-de-bico']},
+  {id:'angu', q:'Qual cereal é a base tradicional do angu?', a:'Milho', opts:['Milho','Arroz','Trigo','Cevada']},
+  {id:'torresmo', q:'O torresmo tradicional é preparado a partir de qual carne?', a:'Porco', opts:['Porco','Frango','Peixe','Boi']}
+];
+
+const originRoundLabel=document.getElementById('originRoundLabel');
+const originImage=document.getElementById('originImage');
+const originFoodName=document.getElementById('originFoodName');
+const originQuestion=document.getElementById('originQuestion');
+const originOptions=document.getElementById('originOptions');
+const originScoreEl=document.getElementById('originScore');
+const originHitsEl=document.getElementById('originHits');
+const originMessage=document.getElementById('originMessage');
+const nextOriginBtn=document.getElementById('nextOriginBtn');
+
+let originRounds=[];
+let originIndex=0;
+let originScore=0;
+let originHits=0;
+let originAnswered=false;
+
+function startOriginGame(){
+  originRounds=shuffle(originQuestions).slice(0,10);
+  originIndex=0;
+  originScore=0;
+  originHits=0;
+  originAnswered=false;
+  showScreen('origin');
+  loadOriginQuestion();
+}
+function loadOriginQuestion(){
+  const item=originRounds[originIndex];
+  const food=foodById(item.id);
+  originAnswered=false;
+  originRoundLabel.textContent=`${originIndex+1} / ${originRounds.length}`;
+  originImage.src=food.image;
+  originImage.alt=food.name;
+  originFoodName.textContent=food.name;
+  originQuestion.textContent=item.q;
+  originScoreEl.textContent=originScore;
+  originHitsEl.textContent=originHits;
+  originMessage.textContent='Escolha uma resposta.';
+  nextOriginBtn.disabled=true;
+  originOptions.innerHTML='';
+  shuffle(item.opts).forEach(option=>{
+    const btn=document.createElement('button');
+    btn.className='origin-option';
+    btn.textContent=option;
+    btn.addEventListener('click',()=>answerOrigin(btn,option,item.a));
+    originOptions.appendChild(btn);
+  });
+}
+function answerOrigin(btn,choice,answer){
+  if(originAnswered)return;
+  originAnswered=true;
+  const buttons=[...originOptions.children];
+  buttons.forEach(b=>b.disabled=true);
+  if(choice===answer){
+    btn.classList.add('correct');
+    originScore+=100;
+    originHits+=1;
+    originMessage.innerHTML='🎉 Acertou! Muito bem!';
+  }else{
+    btn.classList.add('wrong');
+    buttons.forEach(b=>{if(b.textContent===answer)b.classList.add('correct')});
+    originMessage.innerHTML=`🙂 A resposta correta é <strong>${answer}</strong>.`;
+  }
+  originScoreEl.textContent=originScore;
+  originHitsEl.textContent=originHits;
+  nextOriginBtn.disabled=false;
+}
+nextOriginBtn.addEventListener('click',()=>{
+  if(originIndex < originRounds.length-1){
+    originIndex++;
+    loadOriginQuestion();
+  }else{
+    originMessage.innerHTML=`🏆 Fim! Você fez <strong>${originScore} pontos</strong> e acertou <strong>${originHits}</strong> de ${originRounds.length}.`;
+    nextOriginBtn.disabled=true;
+    globalMessage.textContent='De Onde Vem? concluído!';
+  }
+});
+
+
 // ---------------- Navegação ----------------
 document.getElementById('startGuessBtn').addEventListener('click', startGuessGame);
 document.getElementById('startMemoryBtn').addEventListener('click', startMemoryGame);
+document.getElementById('startPlateBtn').addEventListener('click', startPlateGame);
+document.getElementById('startOriginBtn').addEventListener('click', startOriginGame);
 document.querySelectorAll('[data-back-home]').forEach(btn => btn.addEventListener('click', () => showScreen('home')));
 
 // ---------------- PWA ----------------

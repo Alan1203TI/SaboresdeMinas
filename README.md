@@ -56,3 +56,18 @@ Alan Camilo Rodrigues • Técnico de TI
 - A imagem principal usada como fundo do aplicativo agora aparece desfocada.
 - Mantida a mesma arte com comidas mineiras e igrejas, porém com visual mais suave para destacar a interface.
 - Cache do PWA atualizado.
+
+
+## v6 — Quatro jogos
+Foram adicionados:
+- Monte o Prato Mineiro
+- De Onde Vem?
+
+Agora o app possui 4 jogos:
+1. Adivinhação dos Sabores
+2. Memória Mineira
+3. Monte o Prato Mineiro
+4. De Onde Vem?
+
+Os novos jogos funcionam por toque e foram pensados para tablet.
+O PWA e a estrutura para GitHub Pages foram mantidos.

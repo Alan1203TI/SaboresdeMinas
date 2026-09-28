@@ -255,3 +255,155 @@ button{font:inherit}
   .e4{top:38px; right:108px}
   .e5{bottom:18px; right:52px}
 }
+
+
+/* ===== v6: novos jogos ===== */
+.hero-actions.four-games{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  max-width:760px;
+}
+.green-btn{background:linear-gradient(135deg,#22c55e,#14b8a6)}
+.blue-btn{background:linear-gradient(135deg,#0ea5e9,#6366f1)}
+
+.plate-game-shell{
+  margin-top:12px;
+  display:grid;
+  grid-template-columns:.82fr 1.18fr;
+  gap:12px;
+}
+.plate-target-card,.plate-options-card,.origin-food-card,.origin-question-card{
+  background:rgba(255,255,255,.18);
+  border:1px solid var(--border);
+  box-shadow:var(--shadow);
+  backdrop-filter:blur(12px);
+  border-radius:26px;
+  padding:18px;
+}
+.plate-target-card h3,.origin-question-card h3{font-size:28px;margin:12px 0 8px}
+.plate-target-card p{font-size:17px;line-height:1.55;margin:0 0 18px}
+.plate-slots{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+}
+.plate-slot{
+  aspect-ratio:1/1;
+  border-radius:20px;
+  border:3px dashed rgba(255,255,255,.5);
+  background:rgba(255,255,255,.10);
+  overflow:hidden;
+  display:grid;
+  place-items:center;
+  position:relative;
+}
+.plate-slot span{
+  width:38px;height:38px;border-radius:50%;
+  display:grid;place-items:center;
+  background:rgba(255,255,255,.22);
+  font-weight:900;
+}
+.plate-slot img{width:100%;height:100%;object-fit:cover}
+.plate-scoreline,.origin-stats{
+  display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px;
+}
+.plate-scoreline div,.origin-stats div{
+  background:#fff;color:#26364f;border-radius:18px;padding:12px;text-align:center;
+}
+.plate-scoreline span,.origin-stats span{display:block;font-size:12px;font-weight:800;opacity:.7}
+.plate-scoreline strong,.origin-stats strong{font-size:26px}
+.plate-help{
+  text-align:center;
+  background:rgba(255,255,255,.14);
+  border-radius:16px;
+  padding:10px 12px;
+  font-weight:800;
+  margin-bottom:12px;
+}
+.plate-options{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+}
+.plate-option{
+  position:relative;
+  border:3px solid transparent;
+  border-radius:18px;
+  overflow:hidden;
+  padding:0;
+  cursor:pointer;
+  aspect-ratio:1/1;
+  background:#fff;
+  box-shadow:var(--shadow);
+}
+.plate-option img{width:100%;height:100%;object-fit:cover;display:block}
+.plate-option.selected{border-color:#facc15;transform:translateY(-2px)}
+.plate-option.selected::after{
+  content:"✓";
+  position:absolute;right:7px;top:7px;
+  width:28px;height:28px;border-radius:50%;
+  display:grid;place-items:center;
+  background:#22c55e;color:#fff;font-weight:900;
+}
+.plate-option.correct{border-color:#22c55e}
+.plate-option.wrong{border-color:#ef4444}
+.plate-actions{display:flex;gap:10px;margin-top:12px}
+.plate-actions>*{flex:1}
+
+.origin-layout{
+  margin-top:12px;
+  display:grid;
+  grid-template-columns:.9fr 1.1fr;
+  gap:12px;
+}
+.origin-food-card img{
+  width:100%;
+  height:470px;
+  object-fit:cover;
+  border-radius:20px;
+  display:block;
+}
+.origin-food-name{
+  margin-top:12px;
+  background:rgba(255,255,255,.18);
+  border-radius:999px;
+  padding:10px 14px;
+  text-align:center;
+  font-size:20px;
+  font-weight:900;
+}
+.origin-options{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin-top:18px;
+}
+.origin-option{
+  border:0;
+  cursor:pointer;
+  min-height:76px;
+  padding:14px;
+  border-radius:18px;
+  background:#fff;
+  color:#334155;
+  font-weight:900;
+  font-size:17px;
+  box-shadow:var(--shadow);
+}
+.origin-option.correct{background:#dcfce7;color:#166534}
+.origin-option.wrong{background:#fee2e2;color:#991b1b}
+.origin-option:disabled{opacity:1;cursor:default}
+.origin-next{width:100%;margin-top:12px}
+
+@media (max-width:900px){
+  .plate-game-shell,.origin-layout{grid-template-columns:1fr}
+  .plate-options{grid-template-columns:repeat(4,1fr)}
+  .origin-food-card img{height:330px}
+}
+@media (max-width:768px){
+  .hero-actions.four-games{grid-template-columns:1fr}
+  .plate-options{grid-template-columns:repeat(3,1fr)}
+  .plate-slots{grid-template-columns:repeat(3,1fr)}
+  .plate-actions{flex-direction:column}
+  .origin-options{grid-template-columns:1fr}
+}

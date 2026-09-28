@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Sabores de Minas — SESIVERSO v5</title>
+  <title>Sabores de Minas — SESIVERSO v6</title>
   <meta name="theme-color" content="#7c3aed" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -38,9 +38,11 @@
           <span class="badge">SESIVERSO • Jogos infantis</span>
           <h2>Brincadeiras deliciosas para aprender sobre Minas!</h2>
           <p>Escolha um dos jogos e descubra sabores, imagens e comidas muito famosas da culinária mineira.</p>
-          <div class="hero-actions">
+          <div class="hero-actions four-games">
             <button class="menu-btn pink" id="startGuessBtn">🔎 Adivinhação dos Sabores</button>
             <button class="menu-btn yellow" id="startMemoryBtn">🃏 Memória Mineira</button>
+            <button class="menu-btn green-btn" id="startPlateBtn">🍽️ Monte o Prato Mineiro</button>
+            <button class="menu-btn blue-btn" id="startOriginBtn">🌽 De Onde Vem?</button>
           </div>
         </div>
         <div class="hero-right">
@@ -117,10 +119,86 @@
       <div class="memory-board" id="memoryBoard"></div>
       <div class="result-box memory-message" id="memoryMessage">Toque nas cartas para encontrar os pares.</div>
     </section>
+
+    <section id="plateScreen" class="screen">
+      <div class="section-header">
+        <button class="back-btn" data-back-home>← Voltar</button>
+        <div class="section-title">
+          <h2>🍽️ Monte o Prato Mineiro</h2>
+          <p>Leia as pistas e escolha os 3 sabores que formam a combinação pedida.</p>
+        </div>
+        <div class="compact-stat">
+          <span>Rodada</span>
+          <strong id="plateRoundLabel">1 / 5</strong>
+        </div>
+      </div>
+
+      <div class="plate-game-shell">
+        <div class="plate-target-card">
+          <span class="badge">DESAFIO</span>
+          <h3 id="plateTitle">Monte o prato!</h3>
+          <p id="plateClue">Escolha três alimentos para completar a rodada.</p>
+          <div class="plate-slots" id="plateSlots">
+            <div class="plate-slot"><span>1</span></div>
+            <div class="plate-slot"><span>2</span></div>
+            <div class="plate-slot"><span>3</span></div>
+          </div>
+          <div class="plate-scoreline">
+            <div><span>Pontos</span><strong id="plateScore">0</strong></div>
+            <div><span>Acertos</span><strong id="plateHits">0</strong></div>
+          </div>
+        </div>
+
+        <div class="plate-options-card">
+          <div class="plate-help">Toque em 3 imagens. Toque novamente para retirar.</div>
+          <div class="plate-options" id="plateOptions"></div>
+          <div class="plate-actions">
+            <button class="soft-btn" id="clearPlateBtn">🧹 Limpar</button>
+            <button class="primary-btn" id="checkPlateBtn" disabled>✅ Conferir prato</button>
+            <button class="primary-btn" id="nextPlateBtn" hidden>➡ Próxima rodada</button>
+          </div>
+          <div class="result-box" id="plateMessage">Escolha 3 alimentos.</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="originScreen" class="screen">
+      <div class="section-header">
+        <button class="back-btn" data-back-home>← Voltar</button>
+        <div class="section-title">
+          <h2>🌽 De Onde Vem?</h2>
+          <p>Descubra o ingrediente ou alimento que dá origem a cada sabor.</p>
+        </div>
+        <div class="compact-stat">
+          <span>Pergunta</span>
+          <strong id="originRoundLabel">1 / 10</strong>
+        </div>
+      </div>
+
+      <div class="origin-layout">
+        <div class="origin-food-card">
+          <img id="originImage" src="" alt="Comida mineira" />
+          <div class="origin-food-name" id="originFoodName">Comida</div>
+        </div>
+
+        <div class="origin-question-card">
+          <span class="badge">DE ONDE VEM?</span>
+          <h3 id="originQuestion">Qual ingrediente combina com esta comida?</h3>
+          <div class="origin-options" id="originOptions"></div>
+          <div class="origin-stats">
+            <div><span>Pontos</span><strong id="originScore">0</strong></div>
+            <div><span>Acertos</span><strong id="originHits">0</strong></div>
+          </div>
+          <button class="primary-btn origin-next" id="nextOriginBtn" disabled>➡ Próxima pergunta</button>
+          <div class="result-box" id="originMessage">Escolha uma resposta.</div>
+        </div>
+      </div>
+    </section>
+
   </main>
 
   <footer class="footer">
-    <span>Sabores de Minas — SESIVERSO • PWA • v5</span>
+    <span>Sabores de Minas — SESIVERSO • PWA • v6 • 4 jogos</span>
     <span>Alan Camilo Rodrigues • Técnico de TI</span>
   </footer>
 
