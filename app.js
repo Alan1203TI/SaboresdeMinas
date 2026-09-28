@@ -1,4 +1,15 @@
 
+document.addEventListener('DOMContentLoaded', () => {
+  if(celebrationModal){
+    celebrationModal.hidden = true;
+    celebrationModal.style.display = 'none';
+    setTimeout(() => {
+      celebrationModal.style.removeProperty('display');
+    }, 0);
+  }
+});
+
+
 const screens = {
   home: document.getElementById('homeScreen'),
   guess: document.getElementById('guessScreen'),
@@ -36,25 +47,33 @@ const celebrationHomeBtn = document.getElementById('celebrationHomeBtn');
 let replayHandler = null;
 
 function showCelebration({title, subtitle, points, detail, extra, onReplay}){
-  celebrationTitle.textContent = title;
-  celebrationSubtitle.textContent = subtitle;
-  celebrationPoints.textContent = points;
-  celebrationDetail.textContent = detail;
-  celebrationExtra.innerHTML = extra;
+  if(!celebrationModal) return;
+  if(celebrationTitle) celebrationTitle.textContent = title;
+  if(celebrationSubtitle) celebrationSubtitle.textContent = subtitle;
+  if(celebrationPoints) celebrationPoints.textContent = points;
+  if(celebrationDetail) celebrationDetail.textContent = detail;
+  if(celebrationExtra) celebrationExtra.innerHTML = extra;
   replayHandler = onReplay;
   celebrationModal.hidden = false;
+  document.body.classList.add('modal-open');
 }
 function closeCelebration(){
+  if(!celebrationModal) return;
   celebrationModal.hidden = true;
+  document.body.classList.remove('modal-open');
 }
-celebrationReplayBtn.addEventListener('click', ()=>{
-  closeCelebration();
-  if(typeof replayHandler === 'function') replayHandler();
-});
-celebrationHomeBtn.addEventListener('click', ()=>{
-  closeCelebration();
-  showScreen('home');
-});
+if(celebrationReplayBtn){
+  celebrationReplayBtn.addEventListener('click', ()=>{
+    closeCelebration();
+    if(typeof replayHandler === 'function') replayHandler();
+  });
+}
+if(celebrationHomeBtn){
+  celebrationHomeBtn.addEventListener('click', ()=>{
+    closeCelebration();
+    showScreen('home');
+  });
+}
 
 // ---------------- Adivinhação ----------------
 const guessImage = document.getElementById('guessImage');

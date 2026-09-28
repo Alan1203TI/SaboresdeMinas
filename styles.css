@@ -480,3 +480,6 @@ button{font:inherit}
 .celebration-actions{display:flex; gap:10px;}
 .celebration-actions > *{flex:1}
 @media (max-width:768px){ .celebration-actions{flex-direction:column} .celebration-stats{grid-template-columns:1fr} .celebration-card h2{font-size:28px}}
+
+.celebration-modal[hidden]{display:none!important}
+body.modal-open{overflow:hidden}

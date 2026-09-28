@@ -1,4 +1,4 @@
-const CACHE_NAME = 'sabores-minas-v8';
+const CACHE_NAME = 'sabores-minas-v9';
 const ASSETS = [
   './',
   './index.html',
@@ -39,15 +39,34 @@ self.addEventListener('activate', (event) => {
   self.clients.claim();
 });
 self.addEventListener('fetch', (event) => {
-  if (event.request.method !== 'GET') return;
+  const request = event.request;
+  if (request.method !== 'GET') return;
+
+  let url;
+  try {
+    url = new URL(request.url);
+  } catch (_) {
+    return;
+  }
+
+  // Ignora extensões do Chrome, DevTools e outros esquemas não http(s).
+  if (url.protocol !== 'http:' && url.protocol !== 'https:') return;
+
   event.respondWith(
-    caches.match(event.request).then(cached => {
+    caches.match(request).then(cached => {
       if (cached) return cached;
-      return fetch(event.request).then(response => {
+
+      return fetch(request).then(response => {
+        if (!response || response.status !== 200 || response.type === 'opaque') {
+          return response;
+        }
         const copy = response.clone();
-        caches.open(CACHE_NAME).then(cache => cache.put(event.request, copy));
+        caches.open(CACHE_NAME).then(cache => cache.put(request, copy)).catch(() => {});
         return response;
-      }).catch(() => caches.match('./index.html'));
+      }).catch(() => {
+        if (request.mode === 'navigate') return caches.match('./index.html');
+        return Response.error();
+      });
     })
   );
 });

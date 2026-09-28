@@ -83,3 +83,11 @@ O PWA e a estrutura para GitHub Pages foram mantidos.
 - O verso das cartas da memória foi redesenhado com visual mais infantil e padrão de baralho.
 - As cartas da memória voltaram a um formato mais consistente, com proporção vertical e brilho ao virar.
 - Todos os jogos agora exibem uma tela final de campeão com pontos e resumo da partida.
+
+
+## v9 — Correção de abertura e botões
+- Corrigido o modal de campeão que aparecia ao entrar no app.
+- Corrigido erro JavaScript que bloqueava os botões dos jogos.
+- Corrigido o Service Worker para ignorar requisições chrome-extension/DevTools.
+- Atualizado o cache PWA para v9.
+- Adicionado versionamento nos arquivos CSS/JS para evitar carregar versão antiga do navegador.
