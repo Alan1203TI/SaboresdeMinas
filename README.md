@@ -71,3 +71,9 @@ Agora o app possui 4 jogos:
 
 Os novos jogos funcionam por toque e foram pensados para tablet.
 O PWA e a estrutura para GitHub Pages foram mantidos.
+
+
+## v7 — verso das cartas
+- Adicionado um novo verso ilustrado para as cartas da Memória Mineira.
+- O verso agora usa uma arte colorida com comidas típicas mineiras e referência visual às igrejas coloniais.
+- Cache do PWA atualizado para refletir o novo asset.
